@@ -226,7 +226,19 @@
             android:id="@+id/image_grid_view_btn"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/grid"/>
+            android:src="@drawable/grid"
+            android:layout_weight="1"
+
+            />
+            <ImageButton
+                android:id="@+id/images_save_btn"
+                android:layout_width="1dp"
+                android:layout_height="49dp"
+                android:src="@drawable/save_large_icon"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+
+            />
 
         </LinearLayout>
             </LinearLayout>
