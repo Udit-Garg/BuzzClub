@@ -79,9 +79,9 @@ class Signupactivity : AppCompatActivity() {
                val usersRef:DatabaseReference=FirebaseDatabase.getInstance().reference.child("Users")
                val userMap=HashMap<String,Any>()
                userMap["uid"]=currentUserID
-               userMap["fullname"]=currentUserID
-               userMap["username"]=currentUserID
-               userMap["email"]=currentUserID
+               userMap["fullname"]=fullName
+               userMap["username"]=userName
+               userMap["email"]=email
                userMap["bio"]="hey i am using buzzclub"
 userMap["image"]="https://firebasestorage.googleapis.com/v0/b/buzzclub-7272b.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=485c0f1f-3fb2-4c96-b7b7-7fd991302531"
     usersRef.child(currentUserID).setValue(userMap)

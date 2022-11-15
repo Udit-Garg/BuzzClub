@@ -11,7 +11,7 @@
         android:id="@+id/logo"
         android:layout_width="160dp"
         android:layout_height="90dp"
-        android:src="@drawable/buzzclub_logo"
+        android:src="@drawable/camera"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="115dp"
 
