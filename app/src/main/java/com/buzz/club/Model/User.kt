@@ -48,10 +48,12 @@ class User {
         this.image = image
     }
 
-    fun UID():String{
+    fun getUID():String{
         return uid
     }
     fun setUID(uid: String){
         this.uid = uid
     }
+
+
 }
