@@ -1,4 +1,5 @@
 package com.buzz.club.Adapter
+
 import android.content.Context
 import android.text.Layout
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentActivity
 import com.buzz.club.Model.User
 import androidx.recyclerview.widget.RecyclerView
 import com.buzz.club.Fragments.ProfileFragment
@@ -22,9 +24,11 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import org.w3c.dom.DocumentFragment
 
-class UserAdapter (private var mContext: Context,
-                   private var mUser:List<User>,
-                   private var isFragment: Boolean = false )  : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(
+    private var mContext: Context,
+    private var mUser: List<User>,
+    private var isFragment: Boolean = false
+) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
     private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
@@ -36,7 +40,7 @@ class UserAdapter (private var mContext: Context,
         return mUser.size
     }
 
-    override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val user = mUser[position]
 
@@ -45,7 +49,18 @@ class UserAdapter (private var mContext: Context,
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
             .into(holder.userProfileImage)
 
-        checkFollowingStatus(user.getUID(),holder.followButton)
+        checkFollowingStatus(user.getUID(), holder.followButton)
+
+        holder.itemView.setOnClickListener(
+            View.OnClickListener {
+                val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+                pref.putString("profileId", user.getUID())
+                pref.apply()
+                (
+                        mContext as FragmentActivity
+                        ).supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
+            }
+        )
 
         holder.followButton.setOnClickListener {
             if (holder.followButton.text.toString() == "Follow") {
@@ -95,31 +110,25 @@ class UserAdapter (private var mContext: Context,
     }
 
 
-
-
-    class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView)
-    {
+    class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
         var userNameTextView: TextView = itemView.findViewById(R.id.user_name_search)
         var userFullnameTextView: TextView = itemView.findViewById(R.id.user_full_name_search)
-        var userProfileImage: CircleImageView = itemView.findViewById(R.id.user_profile_image_search)
+        var userProfileImage: CircleImageView =
+            itemView.findViewById(R.id.user_profile_image_search)
         var followButton: Button = itemView.findViewById(R.id.follow_btn_search)
     }
+
     private fun checkFollowingStatus(uid: String, followButton: Button) {
         val followingRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Following")
         }
-        followingRef.addValueEventListener(object : ValueEventListener
-        {
-            override fun onDataChange(datasnapshot: DataSnapshot)
-            {
-                if (datasnapshot.child(uid).exists())
-                {
+        followingRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                if (datasnapshot.child(uid).exists()) {
                     followButton.text = "Following"
-                }
-                else
-                {
+                } else {
                     followButton.text = "Follow"
                 }
             }
@@ -130,4 +139,4 @@ class UserAdapter (private var mContext: Context,
         })
 
     }
-                   }
+}
