@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/user_name_search"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="user name"
             android:layout_below="@id/user_profile_image_search"
@@ -40,13 +40,13 @@
 
         <TextView
             android:id="@+id/user_full_name_search"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="user profile name"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"
             android:layout_below="@id/user_name_search"
+            android:layout_marginTop="5dp"
+            android:text="user profile name"
             android:textSize="12dp"
+            android:textStyle="bold"
 
             />
 
